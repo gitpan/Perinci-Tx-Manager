@@ -7,7 +7,9 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   "build_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.3601",
+    "Setup::File::Symlink" => "0.22",
+    "Test::More" => "0.96"
   },
   "configure_requires" => {
     "Module::Build" => "0.3601"
@@ -17,7 +19,7 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Tx-Manager",
-  "dist_version" => "0.28",
+  "dist_version" => "0.29",
   "license" => "perl",
   "module_name" => "Perinci::Tx::Manager",
   "recommends" => {},
@@ -29,7 +31,7 @@ my %module_build_args = (
     "JSON" => 0,
     "Log::Any" => 0,
     "Riap" => "v1.1.14",
-    "Rinci" => "v1.1.22",
+    "Rinci" => "v1.1.23",
     "perl" => "5.010001"
   },
   "script_files" => []

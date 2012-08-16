@@ -2,7 +2,7 @@ NAME
     Perinci::Tx::Manager - Transaction manager
 
 VERSION
-    version 0.28
+    version 0.29
 
 SYNOPSIS
      # used by Perinci::Access::InProcess
@@ -82,7 +82,9 @@ METHODS
 
         Not yet implemented.
 
-  $tx->begin(%args) => RESP
+  $tx->get_trash_dir => RESP
+  $tx->get_tmp_dir => RESP
+  $tm->begin(%args) => RESP
     Start a new transaction.
 
     Arguments: tx_id (str, required, unless already supplied via _tx_id()),
@@ -91,32 +93,32 @@ METHODS
 
     TM will create an entry for this transaction in its database.
 
-  $tx->record_call(%args) => RESP
-    Record a function call. This method needs to be called before function
-    does any step.
+  $tm->call(%args) => RESP
+    Arguments: "sp" (optional, savepoint name, must be unique for this
+    transaction, not yet implemented), "f" (fully-qualified function name),
+    "args" (arguments to function, hashref), "dry_run" (bool). Or, "calls"
+    (list of function calls, array, [[f1, args1], ...], alternative to
+    specifying "f" and "args").
 
-    Arguments: tx_id, f (optional, function name, will be retrieved from
-    caller(1) if not specified, assuming the call is from the function
-    itself), args (required, function arguments).
+    Call one or more functions inside the scope of a transaction, i.e.
+    recording the undo call for each function call before actually calling
+    it, to allow for rollback/undo/redo. TM will first check that each
+    function supports transaction, and return 412 if it does not.
 
-    TM will create an entry for this call in its database.
+    (Note: if call is a dry-run call, or to a pure function [one that does
+    not produce side effects], you can just perform the function directly
+    without using TM.)
 
-    Return call ID in enveloped response.
+    To call a single function, specify "f" and "args". To call several
+    functions, supply "calls".
 
-  $tx->record_undo_step(%args) => RESP
-    Record an undo step. This method needs to be called before performing a
-    step.
+    Note: special arguments (those started with dash, "-") will be stripped
+    from function arguments by TM.
 
-    Arguments: tx_id, call_id, data (an array).
+    If response from function is not success, rollback() will be called.
 
-  $tx->record_redo_step(%args) => RESP
-    Record a redo step. This method needs to be called before performing an
-    undo step.
+    On success, will return the result from the last function.
 
-    Arguments: tx_id, call_id, data (an array).
-
-  $tx->get_trash_dir => RESP
-  $tx->get_tmp_dir => RESP
   $tx->commit(%args) => RESP
     Arguments: tx_id
 
@@ -161,7 +163,7 @@ METHODS
 
     Arguments: tx_id
 
-  $tx->discard_all(%args) => RESP
+  $tm->discard_all(%args) => RESP
     Discard (forget) all committed transactions.
 
 SEE ALSO

@@ -31,4 +31,4 @@ requires:
 resources:
   homepage: http://metacpan.org/release/Perinci-Tx-Manager
   repository: http://github.com/sharyanto/perl-Perinci-Tx-Manager
-version: 0.30
+version: 0.31

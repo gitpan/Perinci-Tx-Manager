@@ -7,19 +7,22 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   "build_requires" => {
+    "File::chdir" => 0,
     "Module::Build" => "0.3601",
-    "Setup::File::Symlink" => "0.22",
-    "Test::More" => "0.96"
+    "Perinci::Access::InProcess" => "0.30",
+    "Perinci::Examples" => 0,
+    "Test::More" => "0.96",
+    "UUID::Random" => 0
   },
   "configure_requires" => {
     "Module::Build" => "0.3601"
   },
-  "dist_abstract" => "Transaction manager",
+  "dist_abstract" => "A Rinci transaction manager",
   "dist_author" => [
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Tx-Manager",
-  "dist_version" => "0.29",
+  "dist_version" => "0.30",
   "license" => "perl",
   "module_name" => "Perinci::Tx::Manager",
   "recommends" => {},
@@ -28,10 +31,11 @@ my %module_build_args = (
     "DBD::SQLite" => 0,
     "DBI" => 0,
     "File::Flock" => 0,
+    "File::Remove" => 0,
     "JSON" => 0,
     "Log::Any" => 0,
     "Riap" => "v1.1.14",
-    "Rinci" => "v1.1.23",
+    "Rinci" => "v1.1.26",
     "perl" => "5.010001"
   },
   "script_files" => []

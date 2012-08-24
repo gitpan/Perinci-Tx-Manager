@@ -1,5 +1,18 @@
 Revision history for Perinci-Tx-Manager
 
+0.30     2012-08-24 (SHARYANTO)
+
+         [INCOMPATIBLE CHANGES]
+
+         - Now follow Rinci 1.1.26 (transaction protocol version bumped to v=2,
+           no longer uses undo protocol).
+
+         - Database format changed from v=4 to v=5, due some tables being
+           renamed.
+
+         - Various other small fixes.
+
+
 0.29     2012-08-16 (SHARYANTO)
 
          [INCOMPATIBLE CHANGES]

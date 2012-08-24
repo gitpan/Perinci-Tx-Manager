@@ -8,8 +8,12 @@ META.yml
 README
 dist.ini
 lib/Perinci/Tx/Manager.pm
+lib/Test/Perinci/Tx/Manager.pm
 t/00-compile.t
-t/01-basics.t-
+t/01-basics.t
+t/lib/TestTx.pm
 t/release-pod-coverage.t
 t/release-pod-syntax.t
 t/todo-schema-evolution.t
+t/tx_action-setval.t
+t/tx_action-setvals.t

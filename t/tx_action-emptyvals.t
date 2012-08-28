@@ -16,6 +16,16 @@ my $tmpdir = tempdir(CLEANUP=>1);
 $CWD = $tmpdir;
 
 test_tx_action(
+    name    => 'fixed',
+    tmpdir  => $tmpdir,
+    f       => 'TestTx::emptyvals',
+    args    => {},
+    confirm => 1,
+    reset_state => sub { %TestTx::vals = () },
+    status  => 304,
+);
+
+test_tx_action(
     name    => 'without confirm',
     tmpdir  => $tmpdir,
     f       => 'TestTx::emptyvals',

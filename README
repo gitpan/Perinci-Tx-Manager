@@ -2,7 +2,7 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    version 0.32
+    version 0.33
 
 SYNOPSIS
      # used by Perinci::Access::InProcess
@@ -102,6 +102,10 @@ METHODS
     (bool, if set to true then will pass "-confirm => 1" special argument to
     functions; see status code 331 in Rinci::function for more details on
     this).
+
+    TM will also pass the following special arguments: "-tx_v =>
+    PROTO_VERSION", "-tx_rollback => 1" during rollback, and "-tx_recovery
+    => 1" during recovery, for informative purposes.
 
     To perform a single action, specify "f" and "args". To perform several
     actions, supply "actions".

@@ -11,7 +11,7 @@ use Log::Any '$log';
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(time);
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 my $proto_v = 2;
 
@@ -1193,8 +1193,20 @@ sub undo {
         tx_status => ["C"],
         rollback => 0, # _action_loop already does rollback
         code => sub {
+            delete $self->{_res};
             my $res = $self->_undo({confirm=>$args{confirm}});
-            $res ? [532, $res] : [200, "OK"];
+            if ($res) {
+                if ($self->{_res} && $self->{_res}[0] !~ /200|304/) {
+                    return [$self->{_res}[0],
+                            $self->{_res}[1],
+                            undef,
+                            {tx_result=>$res}];
+                } else {
+                    return [532, $res];
+                }
+            } else {
+                return [200, "OK"];
+            }
         },
     );
 }
@@ -1217,8 +1229,20 @@ sub redo {
         tx_status => ["U"],
         rollback => 0, # _action_loop already does rollback
         code => sub {
+            delete $self->{_res};
             my $res = $self->_redo({confirm=>$args{confirm}});
-            $res ? [532, $res] : [200, "OK"];
+            if ($res) {
+                if ($self->{_res} && $self->{_res}[0] !~ /200|304/) {
+                    return [$self->{_res}[0],
+                            $self->{_res}[1],
+                            undef,
+                            {tx_result=>$res}];
+                } else {
+                    return [532, $res];
+                }
+            } else {
+                return [200, "OK"];
+            }
         },
     );
 }
@@ -1286,7 +1310,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.33
+version 0.34
 
 =head1 SYNOPSIS
 

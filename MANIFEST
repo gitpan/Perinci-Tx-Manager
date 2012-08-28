@@ -15,5 +15,6 @@ t/lib/TestTx.pm
 t/release-pod-coverage.t
 t/release-pod-syntax.t
 t/todo-schema-evolution.t
+t/tx_action-emptyvals.t
 t/tx_action-setval.t
 t/tx_action-setvals.t

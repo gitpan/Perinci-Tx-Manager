@@ -9,7 +9,7 @@ my %module_build_args = (
   "build_requires" => {
     "File::chdir" => 0,
     "Module::Build" => "0.3601",
-    "Perinci::Access::InProcess" => "0.30",
+    "Perinci::Access::InProcess" => "0.31",
     "Perinci::Examples" => 0,
     "Test::More" => "0.96",
     "UUID::Random" => 0
@@ -22,7 +22,7 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Tx-Manager",
-  "dist_version" => "0.31",
+  "dist_version" => "0.32",
   "license" => "perl",
   "module_name" => "Perinci::Tx::Manager",
   "recommends" => {},
@@ -35,7 +35,7 @@ my %module_build_args = (
     "JSON" => 0,
     "Log::Any" => 0,
     "Riap" => "v1.1.14",
-    "Rinci" => "v1.1.26",
+    "Rinci" => "v1.1.27",
     "perl" => "5.010001"
   },
   "script_files" => []

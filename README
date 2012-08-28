@@ -2,7 +2,7 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    version 0.31
+    version 0.32
 
 SYNOPSIS
      # used by Perinci::Access::InProcess
@@ -98,7 +98,10 @@ METHODS
 
     Arguments: "f" (fully-qualified function name), "args" (arguments to
     function, hashref). Or, "actions" (list of function calls, array, "[[f1,
-    args1], ...]", alternative to specifying "f" and "args").
+    args1], ...]", alternative to specifying "f" and "args"), "confirm"
+    (bool, if set to true then will pass "-confirm => 1" special argument to
+    functions; see status code 331 in Rinci::function for more details on
+    this).
 
     To perform a single action, specify "f" and "args". To perform several
     actions, supply "actions".
@@ -155,12 +158,16 @@ METHODS
   $tx->undo(%args) => RESP
     Undo a committed transaction.
 
-    Arguments: "tx_id"
+    Arguments: "tx_id", "confirm" (bool, if set to true then will pass
+    "-confirm => 1" special argument to functions; see status code 331 in
+    Rinci::function for more details on this).
 
   $tx->redo(%args) => RESP
     Redo an undone committed transaction.
 
-    Arguments: "tx_id"
+    Arguments: "tx_id", "confirm" (bool, if set to true then will pass
+    "-confirm => 1" special argument to functions; see status code 331 in
+    Rinci::function for more details on this).
 
   $tx->list(%args) => RESP
     List transactions.

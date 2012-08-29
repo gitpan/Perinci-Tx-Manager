@@ -10,8 +10,9 @@ use JSON;
 use Log::Any '$log';
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(time);
+use UUID::Random;
 
-our $VERSION = '0.35'; # VERSION
+our $VERSION = '0.36'; # VERSION
 
 my $proto_v = 2;
 
@@ -502,6 +503,7 @@ sub _perform_action {
     # call the first time, to get undo actions
 
     $args{-tx_action} = 'check_state';
+    $args{-tx_action_id} = UUID::Random::generate();
     $self->{_res} = $res = $action->[4]->(%args);
     $log->tracef("$lp check_state result: %s", $res);
     return "$ep: Check state failed: $res->[0] - $res->[1]"
@@ -1310,7 +1312,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.35
+version 0.36
 
 =head1 SYNOPSIS
 

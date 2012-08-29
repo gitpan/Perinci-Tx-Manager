@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Test::More 0.96;
 use UUID::Random;
 
-our $VERSION = '0.35'; # VERSION
+our $VERSION = '0.36'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -139,6 +139,7 @@ sub test_tx_action {
                 or note "res = ", explain($res);
         };
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
+        $targs{after_undo}->() if $targs{after_undo};
 
 
         subtest "crash during action -> rollback" => sub {
@@ -259,6 +260,7 @@ sub test_tx_action {
                 or note "res = ", explain($res);
         };
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
+        $targs{after_undo}->() if $targs{after_undo};
 
 
         subtest "crash while undo -> roll forward" => sub {
@@ -512,7 +514,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-version 0.35
+version 0.36
 
 =head1 FUNCTIONS
 

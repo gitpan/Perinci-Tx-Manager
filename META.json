@@ -33,7 +33,8 @@
             "JSON" : 0,
             "Log::Any" : 0,
             "Riap" : "v1.1.14",
-            "Rinci" : "v1.1.27",
+            "Rinci" : "v1.1.28",
+            "UUID::Random" : 0,
             "perl" : "5.010001"
          }
       },
@@ -54,6 +55,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Tx-Manager"
       }
    },
-   "version" : "0.35"
+   "version" : "0.36"
 }
 

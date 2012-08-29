@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Time::HiRes qw(time);
 use UUID::Random;
 
-our $VERSION = '0.36'; # VERSION
+our $VERSION = '0.37'; # VERSION
 
 my $proto_v = 2;
 
@@ -220,16 +220,17 @@ CREATE TABLE IF NOT EXISTS tx (
     commit_time REAL,
     last_action_id INTEGER,
     UNIQUE (str_id)
+)
 _
                 $dbh->do(<<'_');
 INSERT INTO tx (ser_id,str_id,owner_id,summary,status,ctime,commit_time,last_action_id)
-SELECT ser_id,str_id,owner_id,summary,status,ctime,commit_time,last_action_id FROM tmp_tx
+SELECT ser_id,str_id,owner_id,summary,status,ctime,commit_time,last_call_id FROM tmp_tx
 _
 
                 $dbh->do("DROP TABLE tmp_tx");
                 $dbh->do("DROP TABLE call");
                 $dbh->do("DROP TABLE undo_call");
-                $dbh->do("UPDATE TABLE _meta SET value='5' WHERE name='v'");
+                $dbh->do("UPDATE _meta SET value='5' WHERE name='v'");
                 # delete column sp, not yet
                 $dbh->commit;
             };
@@ -463,7 +464,7 @@ sub _get_actions_from_db {
                      "ORDER BY ctime, id", {}, $tx->{ser_id});
     $actions = [reverse @$actions];
     $log->tracef("$lp Actions to perform: %s",
-                 [map {[$_->[0], $_->[1]]} @$actions]);
+                 [map {[$_->[0], $_->[2]]} @$actions]);
     $actions;
 }
 
@@ -505,7 +506,7 @@ sub _perform_action {
     $args{-tx_action} = 'check_state';
     $args{-tx_action_id} = UUID::Random::generate();
     $self->{_res} = $res = $action->[4]->(%args);
-    $log->tracef("$lp check_state result: %s", $res);
+    $log->tracef("$lp check_state args: %s, result: %s", \%args, $res);
     return "$ep: Check state failed: $res->[0] - $res->[1]"
         unless $res->[0] == 200 || $res->[0] == 304;
     my $undo_actions = $res->[3]{undo_actions} // [];
@@ -592,7 +593,7 @@ sub _perform_action {
     } elsif ($self->{_res}[0] == 200) {
         $args{-tx_action} = 'fix_state';
         $self->{_res} = $res = $action->[4]->(%args);
-        $log->tracef("$lp fix_state result: %s", $res);
+        $log->tracef("$lp fix_state args: %s, result: %s", \%args, $res);
         return "$ep: action failed: $res->[0] - $res->[1]"
             unless $res->[0] == 200 || $res->[0] == 304;
         $self->_collect_stash($res);
@@ -1312,7 +1313,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.36
+version 0.37
 
 =head1 SYNOPSIS
 

@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Test::More 0.96;
 use UUID::Random;
 
-our $VERSION = '0.37'; # VERSION
+our $VERSION = '0.38'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -514,7 +514,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-version 0.37
+version 0.38
 
 =head1 FUNCTIONS
 

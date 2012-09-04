@@ -22,7 +22,7 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Tx-Manager",
-  "dist_version" => "0.37",
+  "dist_version" => "0.38",
   "license" => "perl",
   "module_name" => "Perinci::Tx::Manager",
   "recommends" => {},
@@ -35,7 +35,7 @@ my %module_build_args = (
     "JSON" => 0,
     "Log::Any" => 0,
     "Riap" => "v1.1.14",
-    "Rinci" => "v1.1.28",
+    "Rinci" => "v1.1.29",
     "UUID::Random" => 0,
     "perl" => "5.010001"
   },

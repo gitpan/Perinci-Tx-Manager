@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Time::HiRes qw(time);
 use UUID::Random;
 
-our $VERSION = '0.37'; # VERSION
+our $VERSION = '0.38'; # VERSION
 
 my $proto_v = 2;
 
@@ -509,6 +509,7 @@ sub _perform_action {
     $log->tracef("$lp check_state args: %s, result: %s", \%args, $res);
     return "$ep: Check state failed: $res->[0] - $res->[1]"
         unless $res->[0] == 200 || $res->[0] == 304;
+    $log->info($res->[1]) if $res->[0] == 200;
     my $undo_actions = $res->[3]{undo_actions} // [];
     my $do_actions   = $res->[3]{do_actions};
     $self->_collect_stash($res);
@@ -1313,7 +1314,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.37
+version 0.38
 
 =head1 SYNOPSIS
 

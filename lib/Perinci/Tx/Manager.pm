@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Time::HiRes qw(time);
 use UUID::Random;
 
-our $VERSION = '0.40'; # VERSION
+our $VERSION = '0.41'; # VERSION
 
 my $proto_v = 2;
 
@@ -1314,7 +1314,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.40
+version 0.41
 
 =head1 SYNOPSIS
 

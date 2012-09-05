@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Test::More 0.96;
 use UUID::Random;
 
-our $VERSION = '0.40'; # VERSION
+our $VERSION = '0.41'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -101,8 +101,8 @@ sub test_tx_action {
             }
             $tx_id1 = $tx_id;
         };
-        goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
         $targs{after_do}->() if $targs{after_do};
+        goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
 
 
         subtest "repeat action -> noop (idempotent), rollback" => sub {
@@ -138,8 +138,8 @@ sub test_tx_action {
             is($res->[2][0]{tx_status}, 'U', "transaction status is U")
                 or note "res = ", explain($res);
         };
-        goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
         $targs{after_undo}->() if $targs{after_undo};
+        goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
 
 
         subtest "crash during action -> rollback" => sub {
@@ -514,7 +514,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-version 0.40
+version 0.41
 
 =head1 FUNCTIONS
 

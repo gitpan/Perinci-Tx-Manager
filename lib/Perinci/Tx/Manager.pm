@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Time::HiRes qw(time);
 use UUID::Random;
 
-our $VERSION = '0.41'; # VERSION
+our $VERSION = '0.42'; # VERSION
 
 my $proto_v = 2;
 
@@ -448,6 +448,7 @@ sub _set_tx_status_after_actions {
 sub _get_actions_from_db {
     my ($self, $which) = @_;
 
+    # for safety, we shouldn't call this function when which='action' anyway
     return if $which eq 'action';
 
     my $dbh = $self->{_dbh};
@@ -462,10 +463,27 @@ sub _get_actions_from_db {
             ($lai ? "AND (id<>$lai AND ".
                  "ctime <= (SELECT ctime FROM $t WHERE id=$lai)) " : "").
                      "ORDER BY ctime, id", {}, $tx->{ser_id});
-    $actions = [reverse @$actions];
-    $log->tracef("$lp Actions to perform: %s",
-                 [map {[$_->[0], $_->[2]]} @$actions]);
-    $actions;
+    [reverse @$actions];
+}
+
+# return undo actions (arrayref), this is currently used for debugging only
+sub _get_undo_actions_from_db {
+    my ($self, $which) = @_;
+
+    # rollback does not record undo actions in db
+    return if $which eq 'rollback';
+
+    my $dbh = $self->{_dbh};
+    my $tx  = $self->{_cur_tx};
+    my $t = $which eq 'redo' || $which eq 'rollback' && $tx->{status} eq 'v' ||
+        # we can also invoke actions during undo
+        ($which eq 'action' && !$self->{_in_undo})
+            ? 'undo_action' : 'do_action';
+
+    my $actions = $dbh->selectall_arrayref(
+        "SELECT f, NULL, args, id FROM $t WHERE tx_ser_id=? ".
+            "ORDER BY ctime, id", {}, $tx->{ser_id});
+    [reverse @$actions];
 }
 
 sub _collect_stash {
@@ -531,11 +549,12 @@ sub _perform_action {
 
     # record action
 
-    if ($which eq 'action') {
-        $dbh->do("INSERT INTO do_action (tx_ser_id,ctime,f,args) ".
+    if ($which eq 'action' && !$self->{_in_undo} && !$self->{_in_redo}) {
+        my $t = 'do_action';
+        $dbh->do("INSERT INTO $t (tx_ser_id,ctime,f,args) ".
                      "VALUES (?,?,?,?)", {},
-             $tx->{ser_id}, time(), $action->[0], $action->[2])
-            or return "$ep: db: can't insert do_action: ".$dbh->errstr;
+                 $tx->{ser_id}, time(), $action->[0], $action->[2])
+            or return "$ep: db: can't insert $t: ".$dbh->errstr;
         my $action_id = $dbh->last_insert_id("","","","");
         $dbh->do("UPDATE tx SET last_action_id=? WHERE ser_id=?", {},
                  $action_id, $tx->{ser_id})
@@ -553,7 +572,7 @@ sub _perform_action {
         my $j = 0;
         for my $ua (@$undo_actions) {
             local $ep = "$ep undo_actions[$j] ($ua->[0])";
-            if ($which eq 'undo') {
+            if ($self->{_in_undo}) {
                 $dbh->do(
                     "INSERT INTO do_action (tx_ser_id,ctime,f,args) ".
                         "VALUES (?,?,?,?)", {},
@@ -646,6 +665,9 @@ sub _action_loop {
     return if $self->{_in_rollback} && $which eq 'rollback';
     local $self->{_in_rollback} = 1 if $which eq 'rollback';
 
+    local $self->{_in_undo} = 1 if $which eq 'undo';
+    local $self->{_in_redo} = 1 if $which eq 'redo';
+
     my $tx = $self->{_cur_tx};
     return "called w/o Rinci transaction, probably a bug" unless $tx;
 
@@ -670,6 +692,8 @@ sub _action_loop {
     # give up).
     my $eval_res = eval {
         $actions = $self->_get_actions_from_db($which) unless $actions;
+        $log->tracef("$lp Actions to perform: %s",
+                     [map {[$_->[0], $_->[2]]} @$actions]);
 
         # check the actions
         $res = $self->_check_actions($actions);
@@ -712,6 +736,14 @@ sub _action_loop {
             }
         }
     }
+
+    if ($log->is_trace) {
+        my $undo_actions = $self->_get_undo_actions_from_db($which);
+        $log->tracef("$lp Recorded undo actions: %s",
+                     [map {[$_->[0], $_->[2]]} @$undo_actions])
+            if $undo_actions;
+    }
+
     return;
 }
 
@@ -1314,7 +1346,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.41
+version 0.42
 
 =head1 SYNOPSIS
 

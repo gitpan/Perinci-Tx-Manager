@@ -2,7 +2,7 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    version 0.42
+    version 0.43
 
 SYNOPSIS
      # used by Perinci::Access::InProcess

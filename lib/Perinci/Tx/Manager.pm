@@ -3,16 +3,19 @@ package Perinci::Tx::Manager;
 use 5.010;
 use strict;
 use warnings;
+
 use DBI;
 use File::Flock;
 use File::Remove qw(remove);
 use JSON;
 use Log::Any '$log';
+#use Perinci::Sub::Util qw(wrapres);
 use Scalar::Util qw(blessed);
+use SHARYANTO::Package::Util qw(package_exists);
 use Time::HiRes qw(time);
 use UUID::Random;
 
-our $VERSION = '0.42'; # VERSION
+our $VERSION = '0.43'; # VERSION
 
 my $proto_v = 2;
 
@@ -277,8 +280,24 @@ sub _get_func_and_meta {
     my ($module, $leaf) = $func =~ /(.+)::(.+)/
         or return [400, "Not a valid fully qualified function name: $func"];
     my $module_p = $module; $module_p =~ s!::!/!g; $module_p .= ".pm";
-    eval { require $module_p }
-        or return [500, "Can't load module $module: $@"];
+    eval { require $module_p };
+    my $req_err = $@;
+    if ($req_err) {
+        if (!package_exists($module)) {
+            return [500, "Can't load module $module (probably ".
+                        "mistyped or missing module): $req_err"];
+        } elsif ($req_err !~ m!Can't locate!) {
+            return [500, "Can't load module $module (probably ".
+                        "compile error): $req_err"];
+        }
+        # require error of "Can't locate ..." can be ignored. it
+        # might mean package is already defined by other code. we'll
+        # try and access it anyway.
+    } elsif (!package_exists($module)) {
+        # shouldn't happen
+        return [500, "Module loaded OK, but no $module package ".
+                    "found, something's wrong"];
+    }
     # get metadata as well as wrapped
     my $res = $self->{pa}->_get_code_and_meta({
         -module=>$module, -leaf=>$leaf, -type=>'function'});
@@ -354,7 +373,8 @@ sub _check_actions {
         };
         return "$ep: can't decode/encode JSON arguments: $@" if $@;
         my $res = $self->_get_func_and_meta($a->[0]);
-        return "$ep: can't get metadata" unless $res->[0] == 200;
+        return "$ep: can't get metadata: $res->[0] - $res->[1]"
+            unless $res->[0] == 200;
         my ($func, $meta) = @{$res->[2]};
         $res = $self->_test_tx_support($meta);
         return "$ep: $res" if $res;
@@ -693,7 +713,7 @@ sub _action_loop {
     my $eval_res = eval {
         $actions = $self->_get_actions_from_db($which) unless $actions;
         $log->tracef("$lp Actions to perform: %s",
-                     [map {[$_->[0], $_->[2]]} @$actions]);
+                     [map {[$_->[0], $_->[2] // $_->[1]]} @$actions]);
 
         # check the actions
         $res = $self->_check_actions($actions);
@@ -1346,7 +1366,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.42
+version 0.43
 
 =head1 SYNOPSIS
 

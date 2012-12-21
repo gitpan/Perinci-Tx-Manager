@@ -4,7 +4,7 @@
       "Steven Haryanto <stevenharyanto@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300015, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640",
    "license" : [
       "perl_5"
    ],
@@ -24,28 +24,32 @@
             "Module::Build" : "0.3601"
          }
       },
+      "develop" : {
+         "requires" : {
+            "Test::Rinci" : "0.01"
+         }
+      },
       "runtime" : {
          "requires" : {
-            "DBD::SQLite" : "0",
-            "DBI" : "0",
-            "File::Flock" : "0",
-            "File::Remove" : "0",
-            "JSON" : "0",
-            "Log::Any" : "0",
+            "DBD::SQLite" : 0,
+            "DBI" : 0,
+            "File::Flock" : 0,
+            "File::Remove" : 0,
+            "JSON" : 0,
+            "Log::Any" : 0,
             "Riap" : "v1.1.14",
             "Rinci" : "v1.1.29",
-            "SHARYANTO::Package::Util" : "0",
-            "UUID::Random" : "0",
+            "SHARYANTO::Package::Util" : 0,
+            "UUID::Random" : 0,
             "perl" : "5.010001"
          }
       },
       "test" : {
          "requires" : {
-            "File::chdir" : "0",
+            "File::chdir" : 0,
             "Perinci::Access::InProcess" : "0.32",
-            "Perinci::Examples" : "0",
             "Test::More" : "0.96",
-            "UUID::Random" : "0"
+            "UUID::Random" : 0
          }
       }
    },
@@ -56,6 +60,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Tx-Manager"
       }
    },
-   "version" : "0.43"
+   "version" : "0.44"
 }
 

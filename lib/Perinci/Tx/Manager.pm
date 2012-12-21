@@ -15,7 +15,7 @@ use SHARYANTO::Package::Util qw(package_exists);
 use Time::HiRes qw(time);
 use UUID::Random;
 
-our $VERSION = '0.43'; # VERSION
+our $VERSION = '0.44'; # VERSION
 
 my $proto_v = 2;
 
@@ -1366,7 +1366,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.43
+version 0.44
 
 =head1 SYNOPSIS
 
@@ -1382,6 +1382,8 @@ transactional functions to save undo/redo data.
 It uses SQLite database to store transaction list and undo/redo data as well as
 transaction data directory to provide trash_dir/tmp_dir for functions that
 require it.
+
+=for Pod::Coverage ^(call)$
 
 =head1 ATTRIBUTES
 

@@ -2,15 +2,15 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    version 0.44
+    version 0.45
 
 SYNOPSIS
-     # used by Perinci::Access::InProcess
+     # used by Perinci::Access::Schemeless
 
 DESCRIPTION
     This class implements transaction and undo manager (TM), as specified by
     Rinci::function::Transaction and Riap::Transaction. It is meant to be
-    instantiated by Perinci::Access::InProcess, but will also be passed to
+    instantiated by Perinci::Access::Schemeless, but will also be passed to
     transactional functions to save undo/redo data.
 
     It uses SQLite database to store transaction list and undo/redo data as
@@ -28,9 +28,9 @@ METHODS
 
     *   pa => OBJ
 
-        Perinci::Access::InProcess object. This is required by
+        Perinci::Access::Schemeless object. This is required by
         Perinci::Tx::Manager to load/get functions when it wants to perform
-        undo/redo/recovery. Perinci::Access::InProcess conveniently
+        undo/redo/recovery. Perinci::Access::Schemeless conveniently
         require() the Perl modules and wraps the functions.
 
     *   data_dir => STR (default "~/.perinci/.tx")
@@ -195,13 +195,13 @@ METHODS
 SEE ALSO
     Rinci::Transaction
 
-    Perinci::Access::InProcess
+    Perinci::Access::Schemeless
 
 AUTHOR
     Steven Haryanto <stevenharyanto@gmail.com>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2012 by Steven Haryanto.
+    This software is copyright (c) 2013 by Steven Haryanto.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

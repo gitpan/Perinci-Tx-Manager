@@ -6,13 +6,13 @@ use warnings;
 use Log::Any '$log';
 
 use File::Remove qw(remove);
-use Perinci::Access::InProcess 0.30;
+use Perinci::Access::Schemeless 0.32;
 use Perinci::Tx::Manager;
 use Scalar::Util qw(blessed);
-use Test::More 0.96;
+use Test::More 0.98;
 use UUID::Random;
 
-our $VERSION = '0.44'; # VERSION
+our $VERSION = '0.45'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -35,7 +35,7 @@ sub test_tx_action {
 
     $reset_state->();
 
-    my $pa = Perinci::Access::InProcess->new(
+    my $pa = Perinci::Access::Schemeless->new(
         use_tx=>1,
         custom_tx_manager => sub {
             my $self = shift;
@@ -508,8 +508,8 @@ sub test_tx_action {
 1;
 # ABSTRACT: Transaction tests
 
-
 __END__
+
 =pod
 
 =head1 NAME
@@ -518,7 +518,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-version 0.44
+version 0.45
 
 =head1 FUNCTIONS
 
@@ -526,9 +526,9 @@ version 0.44
 
 Test performing action using transaction.
 
-Will initialize transaction manager ($tm) and test action using $tm->call().
-Will test several times with different scenarios to make sure commit, rollback,
-undo, redo, and crash recoveries work.
+Will initialize transaction manager ($tm) and test action. Will test several
+times with different scenarios to make sure commit, rollback, undo, redo, and
+crash recoveries work.
 
 Arguments (C<*> denotes required arguments):
 
@@ -558,7 +558,7 @@ state to become inconsistent.
 
 =item * status => INT (default: 200)
 
-Expect $tm->call() to return this status.
+Expect $tm->action() to return this status.
 
 =item * reset_db_dir => BOOL (default: 0)
 
@@ -574,10 +574,9 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

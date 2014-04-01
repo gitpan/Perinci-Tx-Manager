@@ -10,18 +10,18 @@ use File::Flock;
 use File::Remove qw(remove);
 use JSON;
 use Log::Any '$log';
-#use Perinci::Sub::Util qw(wrapres);
 use Scalar::Util qw(blessed);
 use SHARYANTO::Package::Util qw(package_exists);
 use Time::HiRes qw(time);
 use UUID::Random;
 
 # patch, add special action to just retrieve code and meta
+require Perinci::Access::Schemeless;
 package Perinci::Access::Schemeless;
 
 sub actionmeta_get_code_and_meta { +{
     applies_to => ['function'],
-    summary    => "Get metadata",
+    summary    => "Get code and metadata",
 } }
 
 sub action_get_code_and_meta {
@@ -40,7 +40,7 @@ sub action_get_code_and_meta {
 
 package Perinci::Tx::Manager;
 
-our $VERSION = '0.45'; # VERSION
+our $VERSION = '0.46'; # VERSION
 
 my $proto_v = 2;
 
@@ -1384,13 +1384,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.45
+version 0.46
 
 =head1 SYNOPSIS
 
@@ -1610,13 +1612,29 @@ L<Rinci::Transaction>
 
 L<Perinci::Access::Schemeless>
 
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Tx-Manager>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/sharyanto/perl-Perinci-Tx-Manager>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Tx-Manager>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
+
 =head1 AUTHOR
 
 Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Steven Haryanto.
+This software is copyright (c) 2014 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

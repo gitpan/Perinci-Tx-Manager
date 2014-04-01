@@ -2,7 +2,7 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    version 0.46
+    version 0.47
 
 SYNOPSIS
      # used by Perinci::Access::Schemeless

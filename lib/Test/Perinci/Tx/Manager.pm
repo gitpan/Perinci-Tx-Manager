@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Test::More 0.98;
 use UUID::Random;
 
-our $VERSION = '0.47'; # VERSION
+our $VERSION = '0.48'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -520,7 +520,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-version 0.47
+This document describes version 0.48 of Test::Perinci::Tx::Manager (from Perl distribution Perinci-Tx-Manager), released on 2014-05-01.
 
 =head1 FUNCTIONS
 

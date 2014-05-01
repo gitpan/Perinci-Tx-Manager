@@ -41,7 +41,7 @@ sub action_get_code_and_meta {
 
 package Perinci::Tx::Manager;
 
-our $VERSION = '0.47'; # VERSION
+our $VERSION = '0.48'; # VERSION
 
 my $proto_v = 2;
 
@@ -1393,7 +1393,7 @@ Perinci::Tx::Manager - A Rinci transaction manager
 
 =head1 VERSION
 
-version 0.47
+This document describes version 0.48 of Perinci::Tx::Manager (from Perl distribution Perinci-Tx-Manager), released on 2014-05-01.
 
 =head1 SYNOPSIS
 

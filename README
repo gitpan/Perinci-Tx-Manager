@@ -2,7 +2,8 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    version 0.47
+    This document describes version 0.48 of Perinci::Tx::Manager (from Perl
+    distribution Perinci-Tx-Manager), released on 2014-05-01.
 
 SYNOPSIS
      # used by Perinci::Access::Schemeless

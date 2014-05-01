@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Test::More 0.98;
 use UUID::Random;
 
-our $VERSION = '0.48'; # VERSION
+our $VERSION = '0.49'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -101,7 +101,8 @@ sub test_tx_action {
             }
             $tx_id1 = $tx_id;
         };
-        subtest "after_do" => sub { $targs{after_do}->() } if $targs{after_do};
+        subtest "after_do" => sub { $targs{after_do}->(); ok 1 }
+            if $targs{after_do};
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
 
 
@@ -124,7 +125,7 @@ sub test_tx_action {
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
 
 
-        subtest "before_undo" => sub { $targs{before_undo}->() }
+        subtest "before_undo" => sub { $targs{before_undo}->(); ok 1 }
             if $targs{before_undo};
         subtest "==test_tx_action 03/11: undo==" => sub {
             $res = $pa->request(undo => "/", {
@@ -139,7 +140,7 @@ sub test_tx_action {
             is($res->[2][0]{tx_status}, 'U', "transaction status is U")
                 or note "res = ", explain($res);
         };
-        subtest "after_undo" => sub { $targs{after_undo}->() }
+        subtest "after_undo" => sub { $targs{after_undo}->(); ok 1 }
             if $targs{after_undo};
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
 
@@ -249,7 +250,7 @@ sub test_tx_action {
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
 
 
-        subtest "before_undo" => sub { $targs{before_undo}->() }
+        subtest "before_undo" => sub { $targs{before_undo}->(); ok 1 }
             if $targs{before_undo};
         subtest "==test_tx_action 07/11: undo #2==" => sub {
             $res = $pa->request(undo => "/", {
@@ -263,7 +264,7 @@ sub test_tx_action {
                 or note "res = ", explain($res);
         };
         goto DONE_TESTING if $done_testing || !Test::More->builder->is_passing;
-        subtest "after_undo" => sub { $targs{after_undo}->() }
+        subtest "after_undo" => sub { $targs{after_undo}->(); ok 1 }
             if $targs{after_undo};
 
 
@@ -520,7 +521,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-This document describes version 0.48 of Test::Perinci::Tx::Manager (from Perl distribution Perinci-Tx-Manager), released on 2014-05-01.
+This document describes version 0.49 of Test::Perinci::Tx::Manager (from Perl distribution Perinci-Tx-Manager), released on 2014-05-02.
 
 =head1 FUNCTIONS
 

@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use Test::More 0.98;
 use UUID::Random;
 
-our $VERSION = '0.49'; # VERSION
+our $VERSION = '0.50'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -521,7 +521,7 @@ Test::Perinci::Tx::Manager - Transaction tests
 
 =head1 VERSION
 
-This document describes version 0.49 of Test::Perinci::Tx::Manager (from Perl distribution Perinci-Tx-Manager), released on 2014-05-02.
+This document describes version 0.50 of Test::Perinci::Tx::Manager (from Perl distribution Perinci-Tx-Manager), released on 2014-12-05.
 
 =head1 FUNCTIONS
 
@@ -577,7 +577,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Tx
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/sharyanto/perl-Perinci-Tx-Manager>.
+Source repository is at L<https://github.com/perlancar/perl-Perinci-Tx-Manager>.
 
 =head1 BUGS
 
@@ -589,11 +589,11 @@ feature.
 
 =head1 AUTHOR
 
-Steven Haryanto <stevenharyanto@gmail.com>
+perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Steven Haryanto.
+This software is copyright (c) 2014 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

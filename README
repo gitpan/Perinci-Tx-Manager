@@ -2,8 +2,8 @@ NAME
     Perinci::Tx::Manager - A Rinci transaction manager
 
 VERSION
-    This document describes version 0.49 of Perinci::Tx::Manager (from Perl
-    distribution Perinci-Tx-Manager), released on 2014-05-02.
+    This document describes version 0.50 of Perinci::Tx::Manager (from Perl
+    distribution Perinci-Tx-Manager), released on 2014-12-05.
 
 SYNOPSIS
      # used by Perinci::Access::Schemeless
@@ -204,7 +204,7 @@ HOMEPAGE
 
 SOURCE
     Source repository is at
-    <https://github.com/sharyanto/perl-Perinci-Tx-Manager>.
+    <https://github.com/perlancar/perl-Perinci-Tx-Manager>.
 
 BUGS
     Please report any bugs or feature requests on the bugtracker website
@@ -214,10 +214,10 @@ BUGS
     to an existing test-file that illustrates the bug or desired feature.
 
 AUTHOR
-    Steven Haryanto <stevenharyanto@gmail.com>
+    perlancar <perlancar@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2014 by Steven Haryanto.
+    This software is copyright (c) 2014 by perlancar@cpan.org.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
